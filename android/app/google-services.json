@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "665195774844",
+    "project_id": "crud-pruebakh",
+    "storage_bucket": "crud-pruebakh.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665195774844:android:788a7761bf8760b16f9af9",
+        "android_client_info": {
+          "package_name": "com.example.prueba2_karenh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2liNEedm8wob26wE_BLAfxx43Y8RelYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
