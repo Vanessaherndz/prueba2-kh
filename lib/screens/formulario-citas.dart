@@ -26,13 +26,11 @@ class _AppointmentFormState extends State<AppointmentForm> {
   @override
   void initState() {
     super.initState();
-    if (widget.appointment != null) {
-      _doctorId = widget.appointment.doctorId;
-      _patientId = widget.appointment.patientId;
-      _dateTime = widget.appointment.dateTime;
-      _notes = widget.appointment.notes;
+    _doctorId = widget.appointment.doctorId;
+    _patientId = widget.appointment.patientId;
+    _dateTime = widget.appointment.dateTime;
+    _notes = widget.appointment.notes;
     }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +40,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
 
     return Scaffold(
       appBar: AppBar(
+        // ignore: unnecessary_null_comparison
         title: Text(widget.appointment == null ? 'Agregar Cita' : 'Editar Cita'),
       ),
       body: Padding(
@@ -93,6 +92,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                 },
               ),
               TextFormField(
+                // ignore: unnecessary_null_comparison
                 initialValue: _dateTime != null ? _dateTime.toString() : '',
                 decoration: const InputDecoration(labelText: 'Fecha y Hora'),
                 onTap: () async {
@@ -104,6 +104,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   );
                   if (pickedDate != null) {
                     TimeOfDay? pickedTime = await showTimePicker(
+                      // ignore: use_build_context_synchronously
                       context: context,
                       initialTime: TimeOfDay.now(),
                     );
@@ -133,25 +134,18 @@ class _AppointmentFormState extends State<AppointmentForm> {
               ElevatedButton(
                 child: const Text('Guardar'),
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    _formKey.currentState.save();
-                    if (widget.appointment == null) {
-                      appointmentProvider.addAppointment(Cita(
-                        doctorId: _doctorId,
-                        patientId: _patientId,
-                        dateTime: _dateTime,
-                        notes: _notes, id: '',
-                      ));
-                    } else {
-                      appointmentProvider.updateAppointment(Cita(
-                        id: widget.appointment.id,
-                        doctorId: _doctorId,
-                        patientId: _patientId,
-                        dateTime: _dateTime,
-                        notes: _notes,
-                      ));
+                  if (_formKey.currentState!.validate()) {
+                    for (final FormFieldState<dynamic> field in _formKey.currentState!._fields) {
+                      field.save();
                     }
-                    Navigator.of(context).pop();
+                    appointmentProvider.updateAppointment(Cita(
+                      id: widget.appointment.id,
+                      doctorId: _doctorId,
+                      patientId: _patientId,
+                      dateTime: _dateTime,
+                      notes: _notes,
+                    ));
+                                      Navigator.of(context).pop();
                   }
                 },
               ),

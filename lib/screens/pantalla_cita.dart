@@ -54,7 +54,7 @@ class AppointmentsScreen extends StatelessWidget {
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => AppointmentForm(),
+            builder: (context) => const AppointmentForm(),
           ));
         },
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:prueba2_karenh/providers/doctor.dart';
-import 'package:prueba2_karenh/screens/pantalla-citas.dart';
+import 'package:prueba2_karenh/screens/pantalla_cita.dart';
 
 void main() {
   runApp(const MyApp());
