@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Cita {
   String id;
   String doctorId;
@@ -25,4 +27,6 @@ class Cita {
       notes: map['notes'],
     );
   }
+
+  static fromFirestore(QueryDocumentSnapshot<Object?> doc) {}
 }
