@@ -116,9 +116,6 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   }
                 },
                 validator: (value) {
-                  if (_dateTime == null) {
-                    return 'Por favor seleccione una fecha y hora';
-                  }
                   return null;
                 },
               ),
@@ -145,7 +142,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                       dateTime: _dateTime,
                       notes: _notes,
                     ));
-                                      Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   }
                 },
               ),
