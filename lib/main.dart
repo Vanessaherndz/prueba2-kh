@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:prueba2_karenh/providers/doctor.dart';
+import 'package:prueba2_karenh/screens/pantalla-citas.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,8 +15,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => DoctorProvider()),
-        ChangeNotifierProvider(create: (_) => PatientProvider()),
-        ChangeNotifierProvider(create: (_) => AppointmentProvider()),
       ],
       child: MaterialApp(
         title: 'CRUD App',
@@ -37,16 +37,12 @@ class HomeScreen extends StatelessWidget {
           title: const Text('CRUD App'),
           bottom: const TabBar(
             tabs: [
-              Tab(text: 'Doctores'),
-              Tab(text: 'Pacientes'),
-              Tab(text: 'Citas'),
+              Tab(text: 'Formulario'),
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            DoctorsScreen(),
-            PatientsScreen(),
             AppointmentsScreen(),
           ],
         ),
