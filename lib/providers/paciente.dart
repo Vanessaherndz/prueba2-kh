@@ -1,37 +1,32 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:prueba2_karenh/models/paciente-models.dart';
 
 class PacienteProvider with ChangeNotifier {
-  final Firestore _firestore = Firestore.instance;
+  final CollectionReference _patientCollection = FirebaseFirestore.instance.collection('pacientes');
   List<Paciente> _patients = [];
 
   List<Paciente> get patients => _patients;
 
   Future<void> fetchPatients() async {
-    var snapshot = await _firestore.collection('patients').getDocuments();
-    _patients = snapshot.documents.map((doc) => Paciente.fromFirestore(doc)).toList();
+    QuerySnapshot snapshot = await _patientCollection.get();
+    _patients = snapshot.docs.map((doc) => Paciente.fromMap(doc.data(), doc.id)).toList();
     notifyListeners();
   }
 
   Future<void> addPatient(Paciente patient) async {
-    var docRef = await _firestore.collection('patients').add(patient.toMap());
-    patient.id = docRef.id;
-    _patients.add(patient);
-    notifyListeners();
+    await _patientCollection.add(patient.toMap());
+    fetchPatients();
   }
 
   Future<void> updatePatient(Paciente patient) async {
-    await _firestore.collection('patients').document(patient.id).updateData(patient.toMap());
-    int index = _patients.indexWhere((p) => p.id == patient.id);
-    if (index != -1) {
-      _patients[index] = patient;
-      notifyListeners();
-    }
+    await _patientCollection.doc(patient.id).update(patient.toMap());
+    fetchPatients();
   }
 
   Future<void> deletePatient(String id) async {
-    await _firestore.collection('patients').document(id).delete();
-    _patients.removeWhere((p) => p.id == id);
-    notifyListeners();
+    await _patientCollection.doc(id).delete();
+    fetchPatients();
   }
 }

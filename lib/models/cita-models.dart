@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Cita {
   String id;
   String doctorId;
@@ -7,7 +5,7 @@ class Cita {
   DateTime dateTime;
   String notes;
 
-  Cita({this.id, this.doctorId, this.patientId, this.dateTime, this.notes});
+  Cita({required this.id, required this.doctorId, required this.patientId, required this.dateTime, required this.notes});
 
   Map<String, dynamic> toMap() {
     return {
@@ -18,14 +16,13 @@ class Cita {
     };
   }
 
-  factory Cita.fromFirestore(DocumentSnapshot doc) {
-    Map data = doc.data();
+  static Cita fromMap(Map<String, dynamic> map, String id) {
     return Cita(
-      id: doc.id,
-      doctorId: data['doctorId'],
-      patientId: data['patientId'],
-      dateTime: DateTime.parse(data['dateTime']),
-      notes: data['notes'],
+      id: id,
+      doctorId: map['doctorId'],
+      patientId: map['patientId'],
+      dateTime: DateTime.parse(map['dateTime']),
+      notes: map['notes'],
     );
   }
 }

@@ -1,37 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:prueba2_karenh/models/cita-models.dart';
 
 class CitaProvider with ChangeNotifier {
-  final Firestore _firestore = Firestore.instance;
+  final CollectionReference _appointmentCollection = FirebaseFirestore.instance.collection('citas');
   List<Cita> _appointments = [];
 
   List<Cita> get appointments => _appointments;
 
   Future<void> fetchAppointments() async {
-    var snapshot = await _firestore.collection('appointments').getDocuments();
-    _appointments = snapshot.documents.map((doc) => Cita.fromFirestore(doc)).toList();
+    QuerySnapshot snapshot = await _appointmentCollection.get();
+    _appointments = snapshot.docs.map((doc) => Cita.fromMap(doc.data(), doc.id)).toList();
     notifyListeners();
   }
 
   Future<void> addAppointment(Cita appointment) async {
-    var docRef = await _firestore.collection('appointments').add(appointment.toMap());
-    appointment.id = docRef.id;
-    _appointments.add(appointment);
-    notifyListeners();
+    await _appointmentCollection.add(appointment.toMap());
+    fetchAppointments();
   }
 
   Future<void> updateAppointment(Cita appointment) async {
-    await _firestore.collection('appointments').document(appointment.id).updateData(appointment.toMap());
-    int index = _appointments.indexWhere((a) => a.id == appointment.id);
-    if (index != -1) {
-      _appointments[index] = appointment;
-      notifyListeners();
-    }
+    await _appointmentCollection.doc(appointment.id).update(appointment.toMap());
+    fetchAppointments();
   }
 
   Future<void> deleteAppointment(String id) async {
-    await _firestore.collection('appointments').document(id).delete();
-    _appointments.removeWhere((a) => a.id == id);
-    notifyListeners();
+    await _appointmentCollection.doc(id).delete();
+    fetchAppointments();
   }
 }

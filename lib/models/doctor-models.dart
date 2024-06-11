@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Doctor {
   String id;
   String name;
@@ -8,7 +6,7 @@ class Doctor {
   bool availability;
   String photoUrl;
 
-  Doctor({this.id, this.name, this.specialty, this.schedule, this.availability, this.photoUrl});
+  Doctor({required this.id, required this.name, required this.specialty, required this.schedule, required this.availability, required this.photoUrl});
 
   Map<String, dynamic> toMap() {
     return {
@@ -20,15 +18,14 @@ class Doctor {
     };
   }
 
-  factory Doctor.fromFirestore(DocumentSnapshot doc) {
-    Map data = doc.data();
+  static Doctor fromMap(Map<String, dynamic> map, String id) {
     return Doctor(
-      id: doc.id,
-      name: data['name'],
-      specialty: data['specialty'],
-      schedule: data['schedule'],
-      availability: data['availability'],
-      photoUrl: data['photoUrl'],
+      id: id,
+      name: map['name'],
+      specialty: map['specialty'],
+      schedule: map['schedule'],
+      availability: map['availability'],
+      photoUrl: map['photoUrl'],
     );
   }
 }

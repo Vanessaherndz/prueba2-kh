@@ -1,28 +1,31 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Paciente {
   String id;
   String name;
   int age;
   String gender;
+  String address;
+  String phoneNumber;
 
-  Paciente({this.id, this.name, this.age, this.gender});
+  Paciente({required this.id, required this.name, required this.age, required this.gender, required this.address, required this.phoneNumber});
 
   Map<String, dynamic> toMap() {
     return {
       'name': name,
       'age': age,
       'gender': gender,
+      'address': address,
+      'phoneNumber': phoneNumber,
     };
   }
 
-  factory Paciente.fromFirestore(DocumentSnapshot doc) {
-    Map data = doc.data();
+  static Paciente fromMap(Map<String, dynamic> map, String id) {
     return Paciente(
-      id: doc.id,
-      name: data['name'],
-      age: data['age'],
-      gender: data['gender'],
+      id: id,
+      name: map['name'],
+      age: map['age'],
+      gender: map['gender'],
+      address: map['address'],
+      phoneNumber: map['phoneNumber'],
     );
   }
 }
